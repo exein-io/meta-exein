@@ -5,12 +5,22 @@ Note: `meta-exein` works only on Yocto Kirkstone release.
 
 
 # Pulsar
+
+## Yocto dependencies
 This layer currently depends on the additional mandatory layers:
 
-```
-meta-poky
-meta-yocto-bsp
-```
+
+- meta-poky
+- meta-yocto-bsp
+
+
+## System dependencies
+This layer depends on these system tools:
+ 
+- `pahole` >= 1.16
+- `clang` >= 13
+- `llvm-strip` >= 13 
+
 
 ## Usage
 Before start: review the Yocto system requirements at 

@@ -5,11 +5,11 @@ inherit cargo pkgconfig
 
 # how to get pulsar_linux could be as easy as but default to a git checkout:
 SRC_URI += "git://git@github.com/Exein-io/pulsar.git;protocol=ssh;nobranch=1;branch=main"
-SRCREV = "0d88106d94f7b888ad02992369db4f98977a9149"
+SRCREV = "797f68641ed92b35b152e0d147b9cdcf3bfa49e5"
 
 S = "${WORKDIR}/git"
 CARGO_SRC_DIR = "pulsar"
-PV:append = ".AUTOINC+0d88106d94"
+PV:append = ".AUTOINC+797f68641e"
 
 
 # please note if you have entries that do not begin with crate://
@@ -18,25 +18,31 @@ SRC_URI += " \
     crate://crates.io/adler/1.0.2 \
     crate://crates.io/ahash/0.4.7 \
     crate://crates.io/aho-corasick/0.7.18 \
-    crate://crates.io/anyhow/1.0.58 \
+    crate://crates.io/android_system_properties/0.1.5 \
+    crate://crates.io/anyhow/1.0.65 \
     crate://crates.io/ascii-canvas/3.0.0 \
     crate://crates.io/async-trait/0.1.56 \
     crate://crates.io/atty/0.2.14 \
     crate://crates.io/autocfg/1.1.0 \
-    crate://crates.io/axum-core/0.1.2 \
-    crate://crates.io/axum/0.4.8 \
+    crate://crates.io/axum-core/0.2.8 \
+    crate://crates.io/axum/0.5.16 \
     crate://crates.io/aya/0.11.0 \
     crate://crates.io/bit-set/0.5.2 \
     crate://crates.io/bit-vec/0.6.3 \
     crate://crates.io/bitflags/1.3.2 \
+    crate://crates.io/bumpalo/3.11.0 \
     crate://crates.io/byteorder/1.4.3 \
     crate://crates.io/bytes/1.2.0 \
     crate://crates.io/cfg-if/1.0.0 \
-    crate://crates.io/chrono/0.4.19 \
+    crate://crates.io/chrono/0.4.22 \
     crate://crates.io/clap/3.2.13 \
+    crate://crates.io/clap/4.0.13 \
     crate://crates.io/clap_derive/3.2.7 \
+    crate://crates.io/clap_derive/4.0.13 \
     crate://crates.io/clap_lex/0.2.4 \
+    crate://crates.io/clap_lex/0.3.0 \
     crate://crates.io/comfy-table/5.0.1 \
+    crate://crates.io/core-foundation-sys/0.8.3 \
     crate://crates.io/crc32fast/1.3.2 \
     crate://crates.io/crossbeam-channel/0.5.5 \
     crate://crates.io/crossbeam-deque/0.8.1 \
@@ -83,10 +89,12 @@ SRC_URI += " \
     crate://crates.io/humantime/2.1.0 \
     crate://crates.io/hyper/0.14.20 \
     crate://crates.io/hyperlocal/0.8.0 \
+    crate://crates.io/iana-time-zone/0.1.48 \
     crate://crates.io/indexmap/1.9.1 \
     crate://crates.io/instant/0.1.12 \
     crate://crates.io/itertools/0.10.3 \
     crate://crates.io/itoa/1.0.2 \
+    crate://crates.io/js-sys/0.3.60 \
     crate://crates.io/lalrpop-util/0.19.8 \
     crate://crates.io/lalrpop/0.19.8 \
     crate://crates.io/lazy_static/1.4.0 \
@@ -96,7 +104,7 @@ SRC_URI += " \
     crate://crates.io/lock_api/0.4.7 \
     crate://crates.io/log/0.4.17 \
     crate://crates.io/matches/0.1.9 \
-    crate://crates.io/matchit/0.4.6 \
+    crate://crates.io/matchit/0.5.0 \
     crate://crates.io/memchr/2.5.0 \
     crate://crates.io/memoffset/0.6.5 \
     crate://crates.io/mime/0.3.16 \
@@ -108,7 +116,7 @@ SRC_URI += " \
     crate://crates.io/num-traits/0.2.15 \
     crate://crates.io/num_cpus/1.13.1 \
     crate://crates.io/object/0.28.4 \
-    crate://crates.io/once_cell/1.13.0 \
+    crate://crates.io/once_cell/1.14.0 \
     crate://crates.io/ordered-multimap/0.3.1 \
     crate://crates.io/os_str_bytes/6.2.0 \
     crate://crates.io/parking_lot/0.12.1 \
@@ -125,7 +133,7 @@ SRC_URI += " \
     crate://crates.io/precomputed-hash/0.1.1 \
     crate://crates.io/proc-macro-error-attr/1.0.4 \
     crate://crates.io/proc-macro-error/1.0.4 \
-    crate://crates.io/proc-macro2/1.0.40 \
+    crate://crates.io/proc-macro2/1.0.46 \
     crate://crates.io/procfs/0.12.0 \
     crate://crates.io/quick-error/1.2.3 \
     crate://crates.io/quote/1.0.20 \
@@ -174,9 +182,8 @@ SRC_URI += " \
     crate://crates.io/tiny-keccak/2.0.2 \
     crate://crates.io/tokio-fd/0.3.0 \
     crate://crates.io/tokio-macros/1.8.0 \
-    crate://crates.io/tokio-util/0.7.3 \
     crate://crates.io/tokio/1.20.0 \
-    crate://crates.io/tower-http/0.2.5 \
+    crate://crates.io/tower-http/0.3.4 \
     crate://crates.io/tower-layer/0.3.1 \
     crate://crates.io/tower-service/0.3.2 \
     crate://crates.io/tower/0.4.13 \
@@ -192,6 +199,11 @@ SRC_URI += " \
     crate://crates.io/want/0.3.0 \
     crate://crates.io/wasi/0.10.0+wasi-snapshot-preview1 \
     crate://crates.io/wasi/0.11.0+wasi-snapshot-preview1 \
+    crate://crates.io/wasm-bindgen-backend/0.2.83 \
+    crate://crates.io/wasm-bindgen-macro-support/0.2.83 \
+    crate://crates.io/wasm-bindgen-macro/0.2.83 \
+    crate://crates.io/wasm-bindgen-shared/0.2.83 \
+    crate://crates.io/wasm-bindgen/0.2.83 \
     crate://crates.io/which/4.2.5 \
     crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
     crate://crates.io/winapi-util/0.1.5 \
@@ -210,7 +222,7 @@ SRC_URI += " \
 
 SRC_URI += " \
     file://pulsar.ini \
-    file://rules/example_rules1.yaml \
+    file://rules/basic_rules.yaml \
     file://pulsar \
     file://pulsard \
 "
@@ -221,7 +233,7 @@ do_install () {
     install -d ${D}/var/lib/pulsar/rules
 
     install -m 644 ${WORKDIR}/pulsar.ini ${D}/var/lib/pulsar
-    install -m 644 ${WORKDIR}/rules/example_rules1.yaml ${D}/var/lib/pulsar/rules
+    install -m 644 ${WORKDIR}/rules/basic_rules.yaml ${D}/var/lib/pulsar/rules
     install -m 755 ${WORKDIR}/pulsar ${D}${bindir}/pulsar
     install -m 755 ${WORKDIR}/pulsard ${D}${bindir}/pulsard
     install -m 755 ${B}/target/${CARGO_TARGET_SUBDIR}/pulsar-exec ${D}${bindir}
