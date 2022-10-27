@@ -1,7 +1,7 @@
 # Exein Layer for Yocto
 This layer contains Pulsar and Cosmo recipes to add the Pulsar security framework to an image and to perform an analysis with Cosmo.
 
-Note: `meta-exein` works only on Yocto Kirkstone release.
+Note: `meta-exein` works on Yocto Kirkstone and Langdale.
 
 
 # Pulsar
