@@ -12,12 +12,13 @@ This layer currently depends on the additional mandatory layers:
 
 - meta-poky
 - meta-yocto-bsp
+- meta-openembedded/meta-oe
+- meta-rust-bin
 
 
 ## System dependencies
 This layer depends on these system tools:
  
-- `pahole` >= 1.16
 - `clang` >= 13
 - `llvm-strip` >= 13 
 
