@@ -12,8 +12,6 @@ CARGO_SRC_DIR = "pulsar"
 
 PV:append = ".AUTOINC+ecde9430bb"
 
-SRC_URI += "file://pulsar-mount.sh"
-
 # Already stripped when built in release
 INSANE_SKIP:${PN} += "already-stripped"
 
