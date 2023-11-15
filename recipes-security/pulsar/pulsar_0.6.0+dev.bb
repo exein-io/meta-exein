@@ -5,12 +5,12 @@ HOMEPAGE = "https://pulsar.sh"
 LICENSE = "Apache-2.0"
 SRC_URI += "git://git@github.com/Exein-io/pulsar.git;protocol=ssh;nobranch=1;branch=main"
 LIC_FILES_CHKSUM = "file://LICENSES/LICENSE-APACHE-2.0;md5=a0b5614acd31d1f66c2b9fe2c035f5dd"
-SRCREV = "ecde9430bb8505e2e019b4a9e574e44f22c79510"
+SRCREV = "adad57c64add9be4143769af9c83d0b8577f090a"
 
 S = "${WORKDIR}/git"
 CARGO_SRC_DIR = "pulsar"
 
-PV:append = ".AUTOINC+ecde9430bb"
+PV:append = ".AUTOINC+adad57c64a"
 
 # Already stripped when built in release
 INSANE_SKIP:${PN} += "already-stripped"
