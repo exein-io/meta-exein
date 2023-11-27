@@ -1,5 +1,5 @@
 # Exein Layer for Yocto
-This layer contains Pulsar and kernel recipes to add the Pulsar security framework to an image.
+This layer contains Pulsar and kernel recipes to add the [Pulsar](https://github.com/Exein-io/pulsar) security framework to an image.
 
 > **Note:** `meta-exein` is tested only on Yocto Kirkstone, Langdale, Mickledore and Nanbield.
 
