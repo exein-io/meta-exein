@@ -1,8 +1,8 @@
 # Exein Layer for Yocto
 This layer contains Pulsar and kernel recipes to add the [Pulsar](https://github.com/Exein-io/pulsar) security framework to an image.
 
-> **Note:** `meta-exein` is tested only on Yocto Kirkstone, Langdale, Mickledore and Nanbield.
 
+> **Note:** `meta-exein` is tested on Yocto Kirkstone, Langdale, Mickledore and Nanbield.
 
 # Pulsar
 
@@ -10,7 +10,6 @@ This layer contains Pulsar and kernel recipes to add the [Pulsar](https://github
 This layer currently depends on the additional mandatory layers:
 
 - [meta-openembedded/meta-oe](https://github.com/openembedded/meta-openembedded)
-- [meta-rust-bin](https://github.com/rust-embedded/meta-rust-bin)
 
 
 ## System dependencies
@@ -22,11 +21,11 @@ This layer depends on these system tools:
 
 ## Usage
 Before start: review the Yocto system requirements at 
-https://docs.yoctoproject.org/4.2.3/ref-manual/system-requirements.html
+https://docs.yoctoproject.org/dev/ref-manual/system-requirements.html
 
 1. Install dependencies. Example for Debian/Ubuntu:
     ```bash
-    apt-get install dwarves clang
+    apt-get install clang llvm
     ```
 2. Download the `meta-exein` layer
 3. Add the `meta-exein` layer to your `bblayers.conf` file
@@ -37,8 +36,14 @@ https://docs.yoctoproject.org/4.2.3/ref-manual/system-requirements.html
     bitbake core-image-minimal
     ```
 
+# Contributing
+Feel free to utilize the GitHub PR workflow to share your patches. The following  guidelines are recommended: [Github PR guidelines](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
+
+Layer maintainer: Gianluigi Spagnuolo <gianluigi@exein.io>
+
+
 # License and Copyright
-Copyright 2023 Exein SpA
+Copyright 2024 Exein SpA
 
 All metadata is Apache 2-0 licensed unless otherwise stated. Source code included in tree for individual recipes is under the LICENSE stated in the associated recipe (.bb file) unless otherwise stated.
 
