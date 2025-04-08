@@ -2,7 +2,7 @@
 This layer contains Pulsar and kernel recipes to add the [Pulsar](https://github.com/Exein-io/pulsar) security framework to an image.
 
 
-> **Note:** `meta-exein` is tested on Yocto Kirkstone, Langdale, Mickledore, Nanbield, Scarthgap and Walnascar.
+> **Note:** `meta-exein` is tested on Yocto Kirkstone, Langdale, Mickledore, Nanbield, Scarthgap, Styhead and Walnascar.
 
 # Pulsar
 

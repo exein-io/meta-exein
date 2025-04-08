@@ -5,13 +5,15 @@ HOMEPAGE = "https://pulsar.sh"
 LICENSE = "Apache-2.0"
 SRC_URI += "git://git@github.com/Exein-io/pulsar.git;protocol=ssh;nobranch=1;branch=main"
 LIC_FILES_CHKSUM = "file://LICENSES/LICENSE-APACHE-2.0;md5=a0b5614acd31d1f66c2b9fe2c035f5dd"
-SRCREV = "58cede7bf20821af4575115878d935afb9f392ef"
+SRCREV = "dc0e33b1c253cc00e321f94117d7ed12aa025b77"
 
 S = "${WORKDIR}/git"
-PV:append = ".AUTOINC+58cede7bf2"
+PV:append = ".AUTOINC+dc0e33b1c2"
 
 # Already stripped when built in release
 INSANE_SKIP:${PN} += "already-stripped"
+# FIXME: Build paths are currently embedded
+INSANE_SKIP:${PN} += "buildpaths"
 
 DEPENDS = "openssl zlib elfutils"
 
