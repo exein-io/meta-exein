@@ -37,6 +37,9 @@ https://docs.yoctoproject.org/4.2.3/ref-manual/system-requirements.html
     bitbake core-image-minimal
     ```
 
+> **Note:** If you intend to use non-standard containers, particularly a manually configured one (i.e., not managed by typical container engines like Docker, Podman, Kubernetes, etc.), ensure `CONFIG_MEMCG=y` is enabled in your Linux kernel configuration (`recipes-kernel/linux/files/btf.cfg`) for correct Pulsar detection.
+**Standard container environments enable this configuration by default.**
+
 # License and Copyright
 Copyright 2023 Exein SpA
 
