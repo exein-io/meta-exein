@@ -7,7 +7,6 @@ SRC_URI += "git://git@github.com/Exein-io/pulsar.git;protocol=ssh;nobranch=1;bra
 LIC_FILES_CHKSUM = "file://LICENSES/LICENSE-APACHE-2.0;md5=a0b5614acd31d1f66c2b9fe2c035f5dd"
 SRCREV = "dc0e33b1c253cc00e321f94117d7ed12aa025b77"
 
-S = "${WORKDIR}/git"
 PV:append = ".AUTOINC+dc0e33b1c2"
 
 # Already stripped when built in release
@@ -16,10 +15,6 @@ INSANE_SKIP:${PN} += "already-stripped"
 INSANE_SKIP:${PN} += "buildpaths"
 
 DEPENDS = "openssl zlib elfutils"
-
-# Enable networking at compile time for Rust non-crates dependencies
-do_compile[network] = "1"
-CARGO_BUILD_FLAGS:remove = " --frozen"
 
 do_install () {
     install -d ${D}${bindir}
