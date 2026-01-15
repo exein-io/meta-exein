@@ -1,4 +1,11 @@
 # Exein Layer for Yocto
+
+<p align="center">
+  <a href="https://www.yoctoproject.org/development/yocto-project-compatible-layers/" target="_blank">
+    <img src="Yocto_Compatible_Badge.png" alt="Yocto Compatible" width="100"/>
+  </a>
+</p>
+
 This layer contains Pulsar and kernel recipes to add the [Pulsar](https://github.com/Exein-io/pulsar) security framework to an image.
 
 
