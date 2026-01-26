@@ -11,9 +11,14 @@ This layer currently depends on the additional mandatory layers:
 
 - [meta-openembedded/meta-oe](https://github.com/openembedded/meta-openembedded)
 
-### Rust toolchain (Scarthgap)
 
-Pulsar 0.9.0 uses Rust edition 2024 (Rust >= 1.85). Since `meta-rust-bin` for Scarthgap provides Rust 1.75, you need to use the [meta-lts-mixins (scarthgap/rust branch)](https://git.yoctoproject.org/meta-lts-mixins/tree/recipes-devtools/rust?h=scarthgap/rust) layer instead.
+### Pulsar version selection (Scarthgap)
+The layer supports two versions of Pulsar depending on your available Rust toolchain:
+
+- **Pulsar 0.8.1 (Default):** Compatible with the standard Scarthgap Rust toolchain (1.75). No additional configuration is required.
+- **Pulsar 0.9.0:** Requires Rust >= 1.85. To use this version, add the `meta-lts-mixins` layer ([scarthgap/rust branch](https://git.yoctoproject.org/meta-lts-mixins/tree/recipes-devtools/rust?h=scarthgap/rust)) to your `bblayers.conf`. The mixin will be automatically detected to select the 0.9.0 recipe.
+
+> **Note:** Version selection is automatically performed by the `meta-exein` layer. If you need to force a specific version, set `PREFERRED_VERSION_pulsar` in your `local.conf` (e.g `"0.9.0+dev%"` or `"0.8.1+dev%"`).
 
 ## System dependencies
 This layer depends on these system tools:
