@@ -8,6 +8,10 @@ SRC_URI += "git://github.com/Exein-io/pulsar.git;protocol=https;nobranch=1;branc
 # Blacksail ships OpenSSL 4; the openssl-sys pinned by 0.10.0 refuses to build
 # against it. Lockfile-only bump, dropped once upstream carries it.
 SRC_URI += "file://0001-Cargo.lock-bump-openssl-sys-for-OpenSSL-4.x.patch"
+
+# process-monitor's sched_process_exec probe is rejected by the Linux 6.18
+# verifier; without it nothing populates the process tracker.
+SRC_URI += "file://0002-eBPF-fix-6.18-verifier-rejection.patch"
 LIC_FILES_CHKSUM = "file://LICENSES/LICENSE-APACHE-2.0;md5=a0b5614acd31d1f66c2b9fe2c035f5dd"
 SRCREV = "25f141bc2504bb58d3cf35a05ccd8057504602e5"
 

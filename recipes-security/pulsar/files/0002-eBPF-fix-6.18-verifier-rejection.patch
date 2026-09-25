@@ -1,0 +1,63 @@
+From: meta-exein <thomas@exein.io>
+Subject: [PATCH] eBPF: satisfy the Linux 6.18 verifier in buffer_append_user_memory
+
+process-monitor fails to start on Linux 6.18: the raw_tracepoint
+sched_process_exec program is rejected at load time with
+
+    ; int r = bpf_core_read_user(&((char *)buffer->buffer)[pos], len, source);
+      @ buffer.bpf.h:121
+    R2 min value is negative, either use unsigned or 'var &= const'
+
+The caller in process-monitor computes the length as a u64
+
+    u64 len = end > start ? end - start : 0;
+
+from mm->arg_start / mm->arg_end, and buffer_append_user_memory is
+__always_inline, so the verifier reasons about that 64-bit value rather
+than the u32 parameter. The existing `len >= HALF_BUFFER_MASK` guard
+compiles to a 32-bit compare, which bounds only the 32-bit range; the
+64-bit smin stays negative, and a probe-read helper's size argument is
+checked against the 64-bit bounds.
+
+Masking alone does not help -- clang folds `len &= HALF_BUFFER_MASK` away,
+having already proven the 32-bit range from the branch. barrier_var()
+forces the value to be materialised first so the mask survives and
+establishes a fresh [0, HALF_BUFFER_MASK] bound the verifier accepts. It
+is a no-op at runtime: the guard above has already rejected anything
+>= HALF_BUFFER_MASK (2^13-1).
+
+Without this, process-monitor never starts, nothing populates the process
+tracker, every event carries an unset header.image, and every rule keyed on
+the calling binary silently stops matching -- while the daemon otherwise
+appears healthy.
+
+Upstream-Status: Pending
+Signed-off-by: meta-exein <thomas@exein.io>
+diff --git a/crates/bpf-builder/include/buffer.bpf.h b/crates/bpf-builder/include/buffer.bpf.h
+index 8cee569..8c8f1a8 100644
+--- a/crates/bpf-builder/include/buffer.bpf.h
++++ b/crates/bpf-builder/include/buffer.bpf.h
+@@ -118,6 +118,23 @@ static __always_inline int buffer_append_user_memory(struct buffer *buffer,
+     return -1;
+   }
+ 
++  // Linux 6.18 rejects the read below with "R2 min value is negative".
++  //
++  // The sole caller computes its length as a u64 (arg_end - arg_start read
++  // from mm) and this function is __always_inline, so the verifier reasons
++  // about that 64-bit value. The bound check above compiles to a 32-bit
++  // compare, which constrains only the 32-bit range and leaves the 64-bit
++  // smin negative -- and the size argument of a probe-read helper is checked
++  // against the 64-bit bounds.
++  //
++  // Masking alone is not enough: clang folds it away, having already proven
++  // the 32-bit range from the branch. barrier_var() forces the value to be
++  // materialised first, so the mask survives and gives the verifier a fresh
++  // [0, HALF_BUFFER_MASK] bound in both domains. No-op at runtime for every
++  // value that reaches here.
++  barrier_var(len);
++  len &= HALF_BUFFER_MASK;
++
+   int r = bpf_core_read_user(&((char *)buffer->buffer)[pos], len, source);
+   if (r < 0) {
+     LOG_ERROR("reading failure: %d", r);
