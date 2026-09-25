@@ -1,9 +1,12 @@
-inherit cargo cargo-update-recipe-crates pkgconfig
+inherit cargo cargo-update-recipe-crates pkgconfig ptest
 
 SUMMARY = "pulsar"
 HOMEPAGE = "https://pulsar.sh"
 LICENSE = "Apache-2.0"
 SRC_URI += "git://github.com/Exein-io/pulsar.git;protocol=https;nobranch=1;branch=main"
+SRC_URI += "file://run-ptest \
+            file://ptest-lib.sh \
+            file://tests/"
 
 # Blacksail ships OpenSSL 4; the openssl-sys pinned by 0.10.0 refuses to build
 # against it. Lockfile-only bump, dropped once upstream carries it.
@@ -43,6 +46,15 @@ do_install () {
     # scripts/pulsar and scripts/pulsard wrappers.
     install -m 755 ${B}/target/${CARGO_TARGET_SUBDIR}/pulsard ${D}${bindir}/pulsard
     install -m 755 ${B}/target/${CARGO_TARGET_SUBDIR}/pulsar ${D}${bindir}/pulsar
+}
+
+do_install_ptest() {
+    install -d ${D}${PTEST_PATH}
+    install -m 644 ${UNPACKDIR}/ptest-lib.sh ${D}${PTEST_PATH}/ptest-lib.sh
+    install -d ${D}${PTEST_PATH}/tests
+    for t in ${UNPACKDIR}/tests/t[0-9]*.sh; do
+        install -m 755 "$t" ${D}${PTEST_PATH}/tests/
+    done
 }
 
 require ${BPN}-crates.inc
