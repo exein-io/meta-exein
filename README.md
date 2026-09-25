@@ -51,6 +51,11 @@ https://docs.yoctoproject.org/dev/ref-manual/system-requirements.html
     bitbake core-image-minimal
     ```
 
+The recipe installs two binaries: `pulsard` (the daemon) and `pulsar` (the
+CLI). Up to 0.9.0 these were shell wrappers around a single `pulsar-exec`
+binary; 0.10.0 replaced all three with two real binaries.
+
+
 
 > **Note:** If you intend to use non-standard containers, particularly a manually configured one (i.e., not managed by typical container engines like Docker, Podman, Kubernetes, etc.), ensure `CONFIG_MEMCG=y` is enabled in your Linux kernel configuration (`recipes-kernel/linux/files/btf.cfg`) for correct Pulsar detection.
 **Standard container environments enable this configuration by default.**
