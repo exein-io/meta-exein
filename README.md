@@ -9,7 +9,15 @@
 This layer contains Pulsar and kernel recipes to add the [Pulsar](https://github.com/Exein-io/pulsar) security framework to an image.
 
 
-> **Note:** `meta-exein` is tested on Yocto Kirkstone, Langdale, Mickledore, Nanbield, Scarthgap, Styhead, Walnascar, Whinlatter and Wrynose.
+> **Note:** `main` targets the current Yocto development series, **Blacksail**.
+> Each release has its own branch of this layer — `wrynose`, `whinlatter`,
+> `walnascar`, `styhead`, `scarthgap`, `nanbield`, `mickledore`, `kirkstone`.
+> Check out the branch matching your Yocto release.
+>
+> Pulsar 0.10.0 is written against the Rust 2024 edition, so it needs
+> `rustc` >= 1.85. Blacksail (1.98.1), Wrynose (1.94.1) and Whinlatter (1.90)
+> satisfy that; Walnascar (1.84.1) and older do not, so the branches for those
+> releases stay on an earlier Pulsar.
 
 # Pulsar
 
