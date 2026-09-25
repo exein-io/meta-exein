@@ -4,6 +4,10 @@ SUMMARY = "pulsar"
 HOMEPAGE = "https://pulsar.sh"
 LICENSE = "Apache-2.0"
 SRC_URI += "git://github.com/Exein-io/pulsar.git;protocol=https;nobranch=1;branch=main"
+
+# Blacksail ships OpenSSL 4; the openssl-sys pinned by 0.10.0 refuses to build
+# against it. Lockfile-only bump, dropped once upstream carries it.
+SRC_URI += "file://0001-Cargo.lock-bump-openssl-sys-for-OpenSSL-4.x.patch"
 LIC_FILES_CHKSUM = "file://LICENSES/LICENSE-APACHE-2.0;md5=a0b5614acd31d1f66c2b9fe2c035f5dd"
 SRCREV = "25f141bc2504bb58d3cf35a05ccd8057504602e5"
 
