@@ -33,6 +33,10 @@ This layer depends on these system tools:
 - `clang` >= 13
 - `llvm-strip` >= 13 
 
+Both must be on `PATH` under their unversioned names — the layer adds them to
+`HOSTTOOLS`, and bitbake will refuse to start if either is missing. Distributions
+that only install versioned binaries (`llvm-strip-18`) need a symlink.
+
 
 ## Usage
 Before start: review the Yocto system requirements at 
@@ -55,6 +59,38 @@ The recipe installs two binaries: `pulsard` (the daemon) and `pulsar` (the
 CLI). Up to 0.9.0 these were shell wrappers around a single `pulsar-exec`
 binary; 0.10.0 replaced all three with two real binaries.
 
+
+## Testing
+
+A `bitbake-setup.conf.json` is provided to build a minimal QEMU image with
+Pulsar and its ptest suite installed, targeting `qemux86-64` or `qemuarm64`.
+
+```bash
+./bitbake/bin/bitbake-setup init --setup-dir-name qemux86-64 \
+    bitbake-setup.conf.json exein-pulsar-test machine/qemux86-64 --non-interactive
+```
+
+Then build and run the suite under QEMU:
+
+```bash
+. bitbake-builds/qemux86-64/build/init-build-env
+bitbake pulsar-test-image
+bitbake -c testimage pulsar-test-image
+```
+
+`pulsar-test-image` runs the `ping`, `ssh` and `ptest` suites. The ptest suite
+(`recipes-security/pulsar/files/`) starts `pulsard`, waits for its eBPF probes
+to attach, and asserts that rules under `/var/lib/pulsar/rules` actually fire:
+
+| Section | Covers |
+|---|---|
+| `t00-binaries` | the 0.10.0 `pulsard`/`pulsar` split, `--version`, rule install, `pulsar status` |
+| `t01-file-create` | `Create files below /root` (FileCreated) |
+| `t02-history` | `Shell history truncation` / `Shell history deletion` |
+| `t03-compression` | `Sensitive file compression` (FileOpened by an archiver) |
+
+> **Note:** the test image sets `QEMU_USE_KVM = "0"`. Under KVM the
+> file-system-monitor kprobes silently fail to attach and no rule fires.
 
 
 > **Note:** If you intend to use non-standard containers, particularly a manually configured one (i.e., not managed by typical container engines like Docker, Podman, Kubernetes, etc.), ensure `CONFIG_MEMCG=y` is enabled in your Linux kernel configuration (`recipes-kernel/linux/files/btf.cfg`) for correct Pulsar detection.
