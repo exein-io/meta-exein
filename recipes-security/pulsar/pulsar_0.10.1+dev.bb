@@ -8,9 +8,9 @@ SRC_URI += "file://run-ptest \
             file://ptest-lib.sh \
             file://tests/"
 LIC_FILES_CHKSUM = "file://LICENSES/LICENSE-APACHE-2.0;md5=a0b5614acd31d1f66c2b9fe2c035f5dd"
-SRCREV = "e3ea7b28ee0c82d6276a257443b44e34977165df"
+SRCREV = "e79d2eb3771b7ad657c0029ca2c7bbaeac5e61fb"
 
-PV:append = ".AUTOINC+e3ea7b28ee"
+PV:append = ".AUTOINC+e79d2eb377"
 
 # Already stripped when built in release
 INSANE_SKIP:${PN} += "already-stripped"
