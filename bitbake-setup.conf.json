@@ -74,6 +74,7 @@
                         "description": "Target machine architecture",
                         "options": [
                             "machine/qemuarm64",
+                            "machine/qemuriscv64",
                             "machine/qemux86-64"
                         ]
                     }
