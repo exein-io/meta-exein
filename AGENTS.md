@@ -150,14 +150,14 @@ bitbake -c testimage pulsar-test-image
 
 One build dir per machine: `bitbake-builds/qemux86-64/`, `bitbake-builds/qemuarm64/`.
 
-**Host prerequisite:** `conf/layer.conf` puts `clang` and `llvm-strip` in
-`HOSTTOOLS`, and bitbake refuses to *start* if either is missing — the error
-arrives before any recipe parses, which makes it look like a config problem.
-Distributions that ship only versioned binaries need symlinks:
-```bash
-ln -s /usr/bin/llvm-strip-18 ~/bin/llvm-strip
-ln -s /usr/bin/clang-18      ~/bin/clang
-```
+**No host clang needed.** The probes are compiled with oe-core's
+`clang-native` (`DEPENDS` + `export CLANG`), not the build machine's compiler.
+This matters beyond convenience: pulsar's `bpf-builder` invokes bare `clang`
+and `llvm-strip` from `PATH`, so while the layer put them in `HOSTTOOLS` the
+probe ISA depended on the builder's distro. Hosts with clang < 20 emitted BPF
+ISA v1 objects that the Linux 6.18 verifier rejected in `process-monitor` —
+reproducible on Ubuntu 24.04 (clang 18), invisible on a clang-20+ host. Do not
+reintroduce the `HOSTTOOLS` shortcut.
 
 ## Reading ptest results
 
