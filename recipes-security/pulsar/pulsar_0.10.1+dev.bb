@@ -7,18 +7,10 @@ SRC_URI += "git://github.com/Exein-io/pulsar.git;protocol=https;nobranch=1;branc
 SRC_URI += "file://run-ptest \
             file://ptest-lib.sh \
             file://tests/"
-
-# Blacksail ships OpenSSL 4; the openssl-sys pinned by 0.10.0 refuses to build
-# against it. Lockfile-only bump, dropped once upstream carries it.
-SRC_URI += "file://0001-Cargo.lock-bump-openssl-sys-for-OpenSSL-4.x.patch"
-
-# process-monitor's sched_process_exec probe is rejected by the Linux 6.18
-# verifier; without it nothing populates the process tracker.
-SRC_URI += "file://0002-eBPF-fix-6.18-verifier-rejection.patch"
 LIC_FILES_CHKSUM = "file://LICENSES/LICENSE-APACHE-2.0;md5=a0b5614acd31d1f66c2b9fe2c035f5dd"
-SRCREV = "25f141bc2504bb58d3cf35a05ccd8057504602e5"
+SRCREV = "e3ea7b28ee0c82d6276a257443b44e34977165df"
 
-PV:append = ".AUTOINC+25f141bc25"
+PV:append = ".AUTOINC+e3ea7b28ee"
 
 # Already stripped when built in release
 INSANE_SKIP:${PN} += "already-stripped"
@@ -51,6 +43,9 @@ do_install () {
 do_install_ptest() {
     install -d ${D}${PTEST_PATH}
     install -m 644 ${UNPACKDIR}/ptest-lib.sh ${D}${PTEST_PATH}/ptest-lib.sh
+    # The upstream crate version, for t00 to assert --version against. Derived
+    # from PV so a version bump does not need the test edited.
+    echo "${PV}" | cut -d+ -f1 > ${D}${PTEST_PATH}/expected-version
     install -d ${D}${PTEST_PATH}/tests
     for t in ${UNPACKDIR}/tests/t[0-9]*.sh; do
         install -m 755 "$t" ${D}${PTEST_PATH}/tests/

@@ -1,5 +1,5 @@
 #!/bin/sh
-# t00 — the 0.10.0 binary split.
+# t00 — the 0.10.x binary split.
 #
 # Up to 0.9.0 the recipe installed a single pulsar-exec binary plus the
 # scripts/pulsar and scripts/pulsard shell wrappers. 0.10.0 replaced all three
@@ -31,13 +31,23 @@ else
 fi
 
 # --version reports the crate version plus the git sha and build profile
-# (upstream #369).
+# (upstream #369). The expected version comes from the recipe's PV via
+# do_install_ptest -- never hardcode it here, or every version bump fails the
+# suite for the wrong reason.
+_expected=$(cat "$PTEST_DIR/expected-version" 2>/dev/null)
+if [ -z "$_expected" ]; then
+    fail "expected-version installed"
+else
+    pass "expected-version installed ($_expected)"
+fi
+
 for _b in "$PULSARD" "$PULSAR"; do
     _v=$("$_b" --version 2>&1)
     _n=$(basename "$_b")
     case "$_v" in
-        *0.10.0*) pass "$_n --version ($_v)" ;;
-        *)        fail "$_n --version"; echo "DBG: got '$_v'" ;;
+        *"$_expected"*) pass "$_n --version ($_v)" ;;
+        *)              fail "$_n --version"
+                        echo "DBG: expected '$_expected', got '$_v'" ;;
     esac
 done
 
