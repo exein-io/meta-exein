@@ -1,0 +1,12 @@
+# Sources cloned by kas
+poky/
+openembedded-core/
+meta-yocto/
+meta-openembedded/
+meta-clang/
+meta-lts-mixins-rust/
+
+# Build outputs
+build/
+sstate/
+downloads/
