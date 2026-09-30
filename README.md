@@ -28,29 +28,21 @@ This layer currently depends on the additional mandatory layers:
 
 
 ## System dependencies
-This layer depends on these system tools:
- 
-- `clang` >= 13
-- `llvm-strip` >= 13 
 
-Both must be on `PATH` under their unversioned names — the layer adds them to
-`HOSTTOOLS`, and bitbake will refuse to start if either is missing. Distributions
-that only install versioned binaries (`llvm-strip-18`) need a symlink.
+None beyond the standard Yocto host requirements. The eBPF probes are compiled
+with oe-core's `clang-native`, so no host clang or llvm is needed — and the
+probe bytecode no longer varies with the build machine's compiler.
 
 
 ## Usage
 Before start: review the Yocto system requirements at 
 https://docs.yoctoproject.org/dev/ref-manual/system-requirements.html
 
-1. Install dependencies. Example for Debian/Ubuntu:
-    ```bash
-    apt-get install clang llvm
-    ```
-2. Download the `meta-exein` layer
-3. Add the `meta-exein` layer to your `bblayers.conf` file
-4. Add `IMAGE_INSTALL:append = " pulsar"` to `local.conf` file
-5. Add `btf` to `DISTRO_FEATURES` in your distro or local config: `DISTRO_FEATURES:append = " btf"`
-6. Build your image, for example run:
+1. Download the `meta-exein` layer
+2. Add the `meta-exein` layer to your `bblayers.conf` file
+3. Add `IMAGE_INSTALL:append = " pulsar"` to `local.conf` file
+4. Add `btf` to `DISTRO_FEATURES` in your distro or local config: `DISTRO_FEATURES:append = " btf"`
+5. Build your image, for example run:
     ```bash
     bitbake core-image-minimal
     ```

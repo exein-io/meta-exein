@@ -17,7 +17,19 @@ INSANE_SKIP:${PN} += "already-stripped"
 # FIXME: Build paths are currently embedded
 INSANE_SKIP:${PN} += "buildpaths"
 
-DEPENDS = "openssl zlib elfutils"
+DEPENDS = "clang-native elfutils llvm-native openssl zlib"
+
+# pulsar's bpf-builder compiles the eBPF probes with whatever "clang" it finds
+# on PATH, and strips them with "llvm-strip". Point it at oe-core's clang-native
+# rather than the build host's compiler: the probe ISA depends on the clang
+# version, so relying on the host makes the bytecode vary per builder. That is
+# what produced BPF ISA v1 objects on hosts with clang < 20, which the Linux
+# 6.18 verifier rejected.
+#
+# llvm-native supplies llvm-strip. clang-native already depends on it, but
+# bpf-builder invokes llvm-strip itself, so depend on it directly rather than
+# rely on that staying true.
+export CLANG = "${STAGING_BINDIR_NATIVE}/clang"
 
 do_install () {
     install -d ${D}${bindir}
