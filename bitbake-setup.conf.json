@@ -1,0 +1,85 @@
+{
+    "version": "1.0",
+    "description": "Yocto test image for Pulsar (open-source, built from source; Wrynose, pinned to SHAs for reproducibility)",
+    "sources": {
+        "bitbake": {
+            "git-remote": {
+                "remotes": {
+                    "origin": {
+                        "uri": "git://git.openembedded.org/bitbake;protocol=https"
+                    }
+                },
+                "branch": "2.18",
+                "rev": "51fd94a67fa17650a9ff623492005972bbc7d26f"
+            }
+        },
+        "openembedded-core": {
+            "git-remote": {
+                "remotes": {
+                    "origin": {
+                        "uri": "git://git.openembedded.org/openembedded-core;protocol=https"
+                    }
+                },
+                "branch": "wrynose",
+                "rev": "0f03c732a0a2d0506b41b1abe60b3f368b2300dc"
+            },
+            "path": "openembedded-core"
+        },
+        "meta-yocto": {
+            "git-remote": {
+                "remotes": {
+                    "origin": {
+                        "uri": "git://git.yoctoproject.org/meta-yocto;protocol=https"
+                    }
+                },
+                "branch": "wrynose",
+                "rev": "7c25b11156553145fa6b241a2d4f65d94438f804"
+            },
+            "path": "meta-yocto"
+        },
+        "meta-openembedded": {
+            "git-remote": {
+                "remotes": {
+                    "origin": {
+                        "uri": "git://git.openembedded.org/meta-openembedded;protocol=https"
+                    }
+                },
+                "branch": "wrynose",
+                "rev": "47d7dbdd10890bbd429bc0cccbe14435c37e5af1"
+            },
+            "path": "meta-openembedded"
+        }
+    },
+    "bitbake-setup": {
+        "configurations": [
+            {
+                "name": "exein-pulsar-test",
+                "description": "Minimal QEMU build for testing the open-source Pulsar recipe",
+                "bb-layers": [
+                    "openembedded-core/meta",
+                    "meta-yocto/meta-poky",
+                    "meta-openembedded/meta-oe"
+                ],
+                "bb-layers-file-relative": [
+                    "."
+                ],
+                "oe-fragments": [
+                    "core/yocto/sstate-mirror-cdn",
+                    "meta-exein/pulsar",
+                    "meta-exein/optimizations",
+                    "distro/poky-altcfg"
+                ],
+                "oe-fragments-one-of": {
+                    "machine": {
+                        "description": "Target machine architecture",
+                        "options": [
+                            "machine/qemuarm64",
+                            "machine/qemuriscv64",
+                            "machine/qemux86-64"
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
