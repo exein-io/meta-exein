@@ -1,0 +1,14 @@
+# bitbake-setup bootstrap script
+bitbake-setup
+bitbake.zip
+
+# Sources cloned by bitbake-setup
+bitbake/
+openembedded-core/
+meta-yocto/
+meta-openembedded/
+
+# Build outputs
+bitbake-builds/
+sstate/
+downloads/
