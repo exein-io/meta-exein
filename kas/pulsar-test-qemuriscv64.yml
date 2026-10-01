@@ -1,0 +1,7 @@
+header:
+  version: 14
+  includes:
+    - base.yml
+    - qemuriscv64.yml
+
+target: pulsar-test-image

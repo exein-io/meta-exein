@@ -1,0 +1,51 @@
+#!/bin/sh
+# pulsar ptest orchestrator
+#
+# Starts pulsard once, waits for its eBPF hooks to actually fire, then runs
+# each test section script in order. Test scripts live in tests/t*.sh
+# (relative to this file's directory).
+#
+# Individual sections can also be run standalone:
+#   sh tests/t02-history.sh [-v]
+# They call daemon_wait themselves when PTEST_DAEMON_READY is unset.
+#
+# Options:
+#   -v   enable set -x tracing in every test script
+
+for _arg in "$@"; do case "$_arg" in -v) PTEST_VERBOSE=1 ;; esac; done
+export PTEST_VERBOSE
+
+PTEST_DIR="$(cd "$(dirname "$0")" && pwd)"
+. "$PTEST_DIR/ptest-lib.sh"
+
+trap 'ptest_cleanup' EXIT
+
+if [ "$(id -u)" != "0" ]; then
+    skip "pulsar" "pulsard requires root"
+    exit 0
+fi
+
+daemon_wait || exit 0
+export PTEST_DAEMON_READY=1
+
+_failed=0
+for _t in "$PTEST_DIR"/tests/t[0-9]*.sh; do
+    [ -e "$_t" ] || continue
+    echo ""
+    echo "=== $(basename "$_t") ==="
+    if sh "$_t" | tee /tmp/.ptest_section_out; then :; fi
+    grep -qE "^(FAIL|SKIP):" /tmp/.ptest_section_out && _failed=1
+    rm -f /tmp/.ptest_section_out
+done
+
+# A failed or skipped assertion is nearly always explained by a probe that did
+# not attach, which is only visible in the daemon's own log.
+if [ "$_failed" = "1" ]; then
+    daemon_log_dump 80
+fi
+
+# ptest-runner reports the script's exit status as the suite result, and the
+# per-assertion PASS/FAIL lines are what actually carry the outcome. Exit 0
+# explicitly so the status of whatever ran last cannot be mistaken for a
+# failure.
+exit 0
